@@ -10,6 +10,7 @@ class UPanel{
   float defaultPosZ = 11;
   boolean animateShadow = false;
   int timeStartAnimation;
+  int roundAngles = 5;
   
   color backgroundColor = color(255); 
   
@@ -23,9 +24,19 @@ class UPanel{
     drawShadow();
     noStroke();
     fill(backgroundColor);
-    rect(position.x, position.y, size.x, size.y, 5);
+    rect(position.x, position.y, size.x, size.y, roundAngles);
     
     panels.forEach(UPanel::draw);
+  }
+  
+  void draw(PGraphics pg) {
+    pg.strokeWeight(3);
+    drawShadow(pg);
+    pg.noStroke();
+    pg.fill(backgroundColor);
+    pg.rect(position.x, position.y, size.x, size.y, roundAngles);
+    
+    panels.forEach((panel) -> panel.draw(pg));
   }
   
   void drawShadow() {
@@ -37,9 +48,23 @@ class UPanel{
     for (int i = 0; i < count; i++) {
       noStroke();
       fill(5, 8);
-      rect(cx, cy + maxSize / 2, (size.x - 1 + (maxSize - i * 6)), (size.y + (maxSize - i * 6)), 5);
+      rect(cx, cy + maxSize / 2, (size.x - 1 + (maxSize - i * 6)), (size.y + (maxSize - i * 6)), roundAngles);
     }
     rectMode(CORNER);
+  }
+  
+  void drawShadow(PGraphics pg) {
+    int count = 8;
+    float maxSize = posZ;
+    float cx = position.x + size.x / 2;
+    float cy = position.y + size.y / 2;
+    pg.rectMode(CENTER);
+    for (int i = 0; i < count; i++) {
+      pg.noStroke();
+      pg.fill(5, 8);
+      pg.rect(cx, cy + maxSize / 2, (size.x - 1 + (maxSize - i * 6)), (size.y + (maxSize - i * 6)), roundAngles);
+    }
+    pg.rectMode(CORNER);
   }
   
   void update() {

@@ -20,6 +20,17 @@ class UButton extends UPanel {
     drawText();
   }
   
+  @Override
+  void draw(PGraphics pg) {
+    color col = backgroundColor;
+    if (isHovered) {
+      backgroundColor = color(red(col) - 4, green(col) - 4, blue(col) - 4);
+    }
+    super.draw(pg);
+    backgroundColor = col;
+    drawText(pg);
+  }
+  
   void drawText() {
     float cx = position.x + size.x / 2;
     float cy = position.y + size.y / 2;
@@ -27,6 +38,15 @@ class UButton extends UPanel {
     textAlign(CENTER, CENTER);
     fill(textColor);
     text(text, cx, cy);
+  }
+  
+  void drawText(PGraphics pg) {
+    float cx = position.x + size.x / 2;
+    float cy = position.y + size.y / 2;
+    pg.textSize(textSize);
+    pg.textAlign(CENTER, CENTER);
+    pg.fill(textColor);
+    pg.text(text, cx, cy);
   }
   
   @Override
